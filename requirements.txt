@@ -1,7 +1,6 @@
 ﻿streamlit
 pandas
-googletrans==4.0.0-rc1   
-easyocr                     
+googletrans==4.0.0-rc1                       
 numpy 
 python-docx
 requests
@@ -14,8 +13,6 @@ opencv-python-headless
 pdf2image
 Pillow
 fuzzywuzzy
-python-Levenshtein
-streamlit-lottie
 openpyxl  
 xlrd 
 pdf2image
