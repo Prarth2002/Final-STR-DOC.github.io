@@ -10,7 +10,6 @@ Pillow
 pytesseract==0.3.10
 tabulate
 opencv-python-headless
-pdf2image
 Pillow
 fuzzywuzzy
 openpyxl  
