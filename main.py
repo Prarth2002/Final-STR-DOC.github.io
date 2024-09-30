@@ -11,7 +11,7 @@ import concurrent.futures
 from streamlit_lottie import st_lottie  # Lottie import
 import base64
 
-pytesseract.pytesseract.tesseract_cmd = '/tmp/tesseract/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 # Define document types and their associated keywords
 document_keywords = {
