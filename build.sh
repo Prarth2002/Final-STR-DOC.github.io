@@ -9,16 +9,27 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# Print directories to verify Tesseract installation
-echo "Listing /usr/bin contents..."
-ls -la /usr/bin
+# Download precompiled Tesseract binary from a trusted source
+echo "Downloading precompiled Tesseract binary..."
+curl -L -o tesseract.tar.gz https://github.com/tesseract-ocr/tesseract/releases/download/5.0.0/tesseract-5.0.0-linux-x86_64.tar.gz
 
-echo "Listing /usr/local/bin contents..."
-ls -la /usr/local/bin
+if [[ $? -ne 0 ]]; then
+    echo "Failed to download Tesseract binary"
+    exit 1
+fi
 
-# Try running Tesseract
+# Unpack the Tesseract binary
+echo "Unpacking Tesseract..."
+mkdir -p /tmp/tesseract
+tar -xvzf tesseract.tar.gz -C /tmp/tesseract --strip-components=1 || { echo "Extraction failed"; exit 1; }
+
+# Add Tesseract to PATH
+echo "Adding Tesseract to PATH..."
+export PATH=/tmp/tesseract/bin:$PATH
+
+# Check if Tesseract is installed correctly
 echo "Checking Tesseract installation..."
-tesseract --version
+/tmp/tesseract/bin/tesseract --version
 
 if [[ $? -ne 0 ]]; then
     echo "Tesseract installation failed"
@@ -28,6 +39,7 @@ else
 fi
 
 echo "Build completed successfully"
+
 
 
 
