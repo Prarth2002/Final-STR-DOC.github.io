@@ -29,4 +29,3 @@ xlrd
 pdf2image
 PyMuPDF
 python-Levenshtein
-base64
