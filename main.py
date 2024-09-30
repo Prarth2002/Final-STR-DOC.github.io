@@ -11,9 +11,7 @@ import concurrent.futures
 from streamlit_lottie import st_lottie  # Lottie import
 import base64
 
-
-# Set up Tesseract path
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 # Define document types and their associated keywords
 document_keywords = {
