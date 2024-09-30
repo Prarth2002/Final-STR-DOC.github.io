@@ -1,21 +1,22 @@
 #!/bin/bash
 
-# Exit on any error
-set -e
+# Set up environment variables (optional)
+export TESSERACT_VERSION=5.0.0
+export INSTALL_DIR="/opt/tesseract"
 
-# Update package lists and install Tesseract and its dependencies
-echo "Installing Tesseract and dependencies..."
-apt-get update && apt-get install -y \
-    tesseract-ocr \
-    libtesseract-dev \
-    poppler-utils
+# Create a directory to install Tesseract
+mkdir -p $INSTALL_DIR
 
-# Build the Docker image
-echo "Building the Docker image..."
-docker build -t my-tesseract-app .
+# Download Tesseract binary (example from GitHub or any other reliable source)
+# Replace this with the URL of the prebuilt binary for your environment (e.g., Linux or Mac)
+curl -L https://github.com/tesseract-ocr/tesseract/releases/download/$TESSERACT_VERSION/tesseract-$TESSERACT_VERSION-linux-x86_64.tar.gz -o tesseract.tar.gz
 
-# Optionally, you can run the Docker container
-# echo "Running the Docker container..."
-# docker run -p 8501:8501 my-tesseract-app
+# Unpack the binary
+tar -xzf tesseract.tar.gz -C $INSTALL_DIR --strip-components=1
 
-echo "Build completed successfully."
+# Add Tesseract binary to PATH
+export PATH=$INSTALL_DIR/bin:$PATH
+
+# Check if Tesseract installed correctly (optional)
+tesseract --version
+
