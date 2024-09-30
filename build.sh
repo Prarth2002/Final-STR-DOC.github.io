@@ -9,7 +9,14 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# Check Tesseract installation
+# Print directories to verify Tesseract installation
+echo "Listing /usr/bin contents..."
+ls -la /usr/bin
+
+echo "Listing /usr/local/bin contents..."
+ls -la /usr/local/bin
+
+# Try running Tesseract
 echo "Checking Tesseract installation..."
 tesseract --version
 
