@@ -5,9 +5,15 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     tesseract-ocr \
+    tesseract-ocr-dev \
+    libtesseract-dev \
+    python3-pil \
     tesseract-ocr-eng \
     tesseract-ocr-script-latn \
     && rm -rf /var/lib/apt/lists/*
+
+# Check if Tesseract is correctly installed
+RUN tesseract --version
 
 # Set the working directory in the container
 WORKDIR /app
@@ -24,10 +30,8 @@ COPY . .
 # Set the Tesseract path in case the app uses it
 ENV TESSERACT_PATH=/usr/bin/tesseract
 
-# Add Tesseract to PATH
-ENV PATH="/usr/bin:$PATH"
-
 # Run the app
 CMD ["streamlit", "run", "main.py", "--server.port", "$PORT", "--server.address", "0.0.0.0"]
+
 
 
