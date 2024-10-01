@@ -1,10 +1,8 @@
+version: 1
 services:
   - type: web
     name: my-app
     env: python
-    buildCommand: |
-      apt-get update && apt-get install -y libgl1-mesa-glx libgtk2.0-dev libtesseract-dev tesseract-ocr tesseract-ocr-eng
-      pip install --upgrade pip
-      pip install -r requirements.txt
-    startCommand: streamlit run app.py
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 
