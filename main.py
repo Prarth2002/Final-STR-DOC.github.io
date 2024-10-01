@@ -167,7 +167,7 @@ def get_base64_image(image_url):
     return image_url  # Directly return the URL for now
 
 # GitHub raw image URLs
-main_background_image = "https://github.com/Prarth2002/Final-STR-DOC.github.io/blob/main/Untitled%20design.png"
+main_background_image = "https://raw.githubusercontent.com/Prarth2002/Final-STR-DOC.github.io/main/Untitled%20design.png"
 sidebar_image_url = "https://raw.githubusercontent.com/Prarth2002/Final-STR-DOC.github.io/main/logo.png"
 
 # Streamlit Interface
