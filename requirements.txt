@@ -15,6 +15,7 @@ openpyxl
 xlrd
 pdf2image
 PyMuPDF
+streamlit-lottie
 python-Levenshtein
 tesserocr
 imutils
