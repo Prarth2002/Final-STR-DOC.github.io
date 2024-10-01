@@ -19,5 +19,6 @@ streamlit-lottie
 python-Levenshtein
 tesserocr
 imutils
+shutil
 
 
