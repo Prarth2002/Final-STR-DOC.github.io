@@ -1,15 +1,13 @@
 # Use an official lightweight Python image as the base image
-FROM python:3.9-slim
+FROM python:3.10-slim  # Update to your Python version
 
 # Install Tesseract and related dependencies
 RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     tesseract-ocr \
-    tesseract-ocr-dev \
     libtesseract-dev \
     python3-pil \
     tesseract-ocr-eng \
-    tesseract-ocr-script-latn \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -24,8 +22,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the container
 COPY . .
 
-# Set the Tesseract path in case the app uses it
-ENV TESSERACT_PATH=/usr/bin/tesseract
-
 # Run the app
-CMD ["streamlit", "run", "main.py"]
+CMD ["streamlit", "run", "app.py", "--server.port", "8080", "--server.address", "0.0.0.0"]
+
