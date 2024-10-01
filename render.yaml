@@ -12,6 +12,7 @@ services:
       python3-pil \
       tesseract-ocr-eng \
       tesseract-ocr-script-latn \
+      poppler-utils \  # Install Poppler utilities
       && rm -rf /var/lib/apt/lists/* \
       && pip install -r requirements.txt \
       && pip install --upgrade pip
