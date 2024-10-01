@@ -17,3 +17,12 @@ xlrd
 pdf2image
 PyMuPDF
 python-Levenshtein
+freeglut3-dev
+libgtk2.0-dev
+libgl1-mesa-glx
+tesseract-ocr
+libtesseract-dev
+libtesseract4
+tesseract-ocr
+tesseract-ocr-eng
+tesseract-ocr-all
