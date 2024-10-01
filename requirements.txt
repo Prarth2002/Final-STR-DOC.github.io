@@ -1,7 +1,7 @@
-﻿streamlit
+streamlit
 pandas
-googletrans==4.0.0-rc1                       
-numpy 
+googletrans==4.0.0-rc1
+numpy
 python-docx
 requests
 json5
@@ -10,21 +10,13 @@ Pillow
 pytesseract==0.3.10
 tabulate
 opencv-python-headless
-Pillow
 fuzzywuzzy
-openpyxl  
-xlrd 
+openpyxl
+xlrd
 pdf2image
 PyMuPDF
 python-Levenshtein
-freeglut3-dev
-libgtk2.0-dev
-libgl1-mesa-glx
-libtesseract-dev
-libtesseract4
-tesseract-ocr
-tesseract-ocr-eng
 tesserocr
 imutils
-tesseract-ocr-all
+
 
