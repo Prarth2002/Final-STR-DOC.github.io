@@ -51,7 +51,6 @@ def classify_document(text, document_keywords, min_keyword_matches=2):
             doc_matches[doc_type] = match_count
     return max(doc_matches, key=doc_matches.get) if doc_matches else "Unknown"
 # Function to extract keywords based on document type
-# Function to extract keywords based on document type
 def extract_keywords_based_on_document(text, document_type):
     """Extract key values from the document based on its classified type."""
     keyword_patterns = {}
@@ -74,11 +73,10 @@ def extract_keywords_based_on_document(text, document_type):
             "Flat No": r"flat no[:\s]*([^\n]+)",
             "Address": r"address[:\s]*([^\n]+)",
             "Area": r"area[:\s]*([^\n]+)",
-            "North": r"description\s*of\s*property[\s\S]?north:[:\s]([^\n]+)",
-            "South": r"description\s*of\s*property[\s\S]?south:[:\s]([^\n]+)",
-            "East": r"description\s*of\s*property[\s\S]?east:[:\s]([^\n]+)",
-            "West": r"description\s*of\s*property[\s\S]?west:[:\s]([^\n]+)"
-
+            "North": r"description\s*of\s*property[\s\S]*?north[:\s]([^\n]+)",
+            "South": r"description\s*of\s*property[\s\S]*?south[:\s]([^\n]+)",
+            "East": r"description\s*of\s*property[\s\S]*?east:[:\s]([^\n]+)",
+            "West": r"description\s*of\s*property[\s\S]*?west[:\s]([^\n]+)"
         }
     elif document_type == "CIDCO Certificate":
         keyword_patterns = {
@@ -111,12 +109,12 @@ def extract_keywords_based_on_document(text, document_type):
             "Situated at": r"situated\s*at[\.:,-]?\s*([^\n,]+)"
         }
 
-    # General extraction for other document types
+    # Extract values using the regex patterns
     extracted_data = {}
     for keyword, pattern in keyword_patterns.items():
-        matches = re.findall(pattern, text, re.IGNORECASE)
-        extracted_data[keyword] = matches[0].strip() if matches else "Not Found"
-    
+        matches = re.findall(pattern, text, re.IGNORECASE)  # Ignore case for matching
+        extracted_data[keyword] = ' '.join(matches[0]).strip() if matches and isinstance(matches[0], tuple) else matches[0].strip() if matches else "Not Found"
+
     return extracted_data
 
 # Function to process individual PDF
