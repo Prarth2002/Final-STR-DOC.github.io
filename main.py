@@ -7,7 +7,6 @@ from PIL import Image
 import re
 from fuzzywuzzy import process
 import pytesseract
-import concurrent.futures
 from streamlit_lottie import st_lottie  # Lottie import
 import base64
 
