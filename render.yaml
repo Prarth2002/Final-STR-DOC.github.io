@@ -1,22 +1,94 @@
-version: 1
-services:
-  - type: web
-    name: my-app
-    env: docker
-    buildCommand: |
-      apt-get update && apt-get install -y \
-      libleptonica-dev \
-      tesseract-ocr \
-      tesseract-ocr-dev \
-      libtesseract-dev \
-      python3-pil \
-      tesseract-ocr-eng \
-      tesseract-ocr-script-latn \
-      poppler-utils \  # Install Poppler utilities
-      && rm -rf /var/lib/apt/lists/* \
-      && pip install -r requirements.txt \
-      && pip install --upgrade pip
-    startCommand: streamlit run main.py --server.port $PORT --server.address 0.0.0.0
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  ScriptS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: film-script-bucket
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: LambdaBedrockS3Role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [lambda.amazonaws.com]
+            Action: ['sts:AssumeRole']
+      Policies:
+        - PolicyName: LambdaBedrockS3Policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource: 'arn:aws:s3:::film-script-bucket/*'
+              - Effect: Allow
+                Action:
+                  - 'bedrock:InvokeModel'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+
+  ScriptAnalysisFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: scriptAnalysisFunction
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.8
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          import json
+          import boto3
+
+          def lambda_handler(event, context):
+              return {
+                  "statusCode": 200,
+                  "body": json.dumps("Lambda function for script analysis is set up!")
+              }
+      Timeout: 10
+
+  APIGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ScriptUploadAPI
+
+  ScriptUploadResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref APIGateway
+      ParentId: !GetAtt APIGateway.RootResourceId
+      PathPart: upload
+
+  ScriptUploadMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref APIGateway
+      ResourceId: !Ref ScriptUploadResource
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS
+        IntegrationHttpMethod: POST
+        Uri: !Sub
+          - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaArn}/invocations
+          - { LambdaArn: !GetAtt ScriptAnalysisFunction.Arn }
+
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref ScriptAnalysisFunction
+      Principal: apigateway.amazonaws.com
+
 
 
 
